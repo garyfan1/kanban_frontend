@@ -1,0 +1,25 @@
+import { authService } from "@/services/authServices"
+import { defineStore } from "pinia"
+
+export const useAuthStore = defineStore("Auth", {
+  state: () => {
+    return {
+      accessToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken"),
+    }
+  },
+  getters: {
+    isLoggedIn: (state): boolean => {
+      return !!state.accessToken
+    },
+  },
+  actions: {
+    async logIn({ username, password }: { username: string; password: string }) {
+      const resp = await authService.signIn({ username: username, password: password })
+      localStorage.setItem("accessToken", resp.access)
+      localStorage.setItem("refreshToken", resp.refresh)
+      this.accessToken = resp.access
+      this.refreshToken = resp.refresh
+    },
+  },
+})

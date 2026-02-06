@@ -13,10 +13,14 @@ export const authService = {
     username: string
     password: string
   }): Promise<SignInResp> => {
-    const resp = await api.post("auth/login/token/", {
+    const resp = await api.post("token/", {
       username: username,
       password: password,
     })
+    return resp.data
+  },
+  getProfile: async (): Promise<{ username: string }> => {
+    const resp = await api.get("profile/")
     return resp.data
   },
 }

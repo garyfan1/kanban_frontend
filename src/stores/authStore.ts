@@ -21,5 +21,15 @@ export const useAuthStore = defineStore("Auth", {
       this.accessToken = resp.access
       this.refreshToken = resp.refresh
     },
+    async getProfile() {
+      const resp = await authService.getProfile()
+      return resp
+    },
+    logout() {
+      this.accessToken = ""
+      this.refreshToken = ""
+      localStorage.setItem("accessToken", "")
+      localStorage.setItem("refreshToken", "")
+    },
   },
 })

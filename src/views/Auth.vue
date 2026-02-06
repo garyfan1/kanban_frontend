@@ -49,7 +49,7 @@ const handleLogIn = async () => {
   <v-container max-width="sm">
     <h1 class="mb-4">Login</h1>
     <h2 v-if="authState.isLoggedIn">You are logged in!</h2>
-    <v-form class="d-flex flex-column ga-3" v-model="isFormValid">
+    <v-form class="d-flex flex-column ga-3" v-model="isFormValid" @submit.prevent="handleLogIn">
       <v-text-field label="Username" v-model="username" :rules="[validateUsername]" />
       <v-text-field
         label="Password"
@@ -59,13 +59,7 @@ const handleLogIn = async () => {
         @click:append-inner="toggleShowPwd()"
         :rules="[validatePwd]"
       />
-      <v-btn
-        text="Submit"
-        type="submit"
-        class="align-self-start"
-        :disabled="!isFormValid"
-        @click="handleLogIn"
-      />
+      <v-btn text="Submit" type="submit" class="align-self-start" :disabled="!isFormValid" />
     </v-form>
   </v-container>
   <v-snackbar v-model="snackbar"> Logged In! </v-snackbar>

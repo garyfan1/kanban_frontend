@@ -1,14 +1,28 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
 import { useAuthStore } from "./stores/authStore"
+import { onMounted, ref } from "vue"
+
+const authStore = useAuthStore()
+const appReady = ref<boolean>(false)
 
 const handleLogOut = () => {
-  useAuthStore().logout()
+  authStore.logout()
 }
+onMounted(async () => {
+  if (authStore.refreshToken) {
+    try {
+      await authStore.refreshLogIn()
+    } catch (e) {
+      authStore.logout()
+    }
+  }
+  appReady.value = true
+})
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="appReady">
     <v-app-bar>
       <v-container class="d-flex ga-4">
         <RouterLink to="/auth">Auth</RouterLink>

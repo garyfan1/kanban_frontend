@@ -31,5 +31,16 @@ export const useAuthStore = defineStore("Auth", {
       localStorage.setItem("accessToken", "")
       localStorage.setItem("refreshToken", "")
     },
+    async refreshLogIn() {
+      if (this.refreshToken) {
+        const resp = await authService.refreshLogIn(this.refreshToken)
+        localStorage.setItem("accessToken", resp.access)
+        localStorage.setItem("refreshToken", resp.refresh)
+        this.accessToken = resp.access
+        this.refreshToken = resp.refresh
+      } else {
+        this.logout()
+      }
+    },
   },
 })

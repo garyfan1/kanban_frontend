@@ -1,10 +1,11 @@
 <script setup lang="ts">
 interface TaskCardProps {
-  title: string
-  subtitle: string
-  desc: string
+  title: string;
+  subtitle: string;
+  desc: string;
+  status?: "todo" | "doing" | "done";
 }
-const { title, subtitle, desc } = defineProps<TaskCardProps>()
+const { title, subtitle, desc, status = "todo" } = defineProps<TaskCardProps>();
 </script>
 
 <template>
@@ -12,9 +13,16 @@ const { title, subtitle, desc } = defineProps<TaskCardProps>()
     <v-card-title> {{ title }} </v-card-title>
     <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
     <v-card-text>{{ desc }}</v-card-text>
-    <v-card-actions>
-      <v-btn>Btn1</v-btn>
-      <v-btn>Btn2</v-btn>
+    <v-card-actions class="justify-space-between">
+      <v-btn :class="['justify-start', status === 'todo' && 'hidden']"><</v-btn>
+      <v-btn>Edit</v-btn>
+      <v-btn :class="['justify-end', status === 'done' && 'hidden']">></v-btn>
     </v-card-actions>
   </v-card>
 </template>
+
+<style scoped>
+.hidden {
+  visibility: hidden;
+}
+</style>

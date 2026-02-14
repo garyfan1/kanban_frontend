@@ -21,7 +21,9 @@ export const useTaskStore = defineStore("task", {
   actions: {
     async getTaskList() {
       const resp = await taskService.listTasks();
-      this.tasks = resp;
+      this.tasks = resp.sort((a, b) => {
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
       return this.tasks;
     },
     async getTaskById(id: number) {

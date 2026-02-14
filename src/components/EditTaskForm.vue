@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 interface EditTaskFormProps {
   id?: number;
-  type?: "add" | "edit";
+  mode?: "add" | "edit";
   defaults?: {
     title: string;
     desc: string;
@@ -12,7 +12,7 @@ interface EditTaskFormProps {
   };
 }
 
-const { defaults, id } = defineProps<EditTaskFormProps>();
+const { defaults, id, mode = "edit" } = defineProps<EditTaskFormProps>();
 const emit = defineEmits(["close"]);
 
 const taskStore = useTaskStore();
@@ -31,22 +31,31 @@ const notEmptyRule = (s: string) => {
 
 const handleSave = async () => {
   try {
-    if (!id) {
-      console.log("Edit task without id");
-      return;
-    }
     if (!formValid.value) {
       console.log("Form is not valid");
       return;
     }
-    await taskStore.patchTask({
-      id: id,
-      data: {
+    if (mode === "add") {
+      await taskStore.createTask({
         title: formTitle.value,
         description: formDesc.value,
         status: formStatus.value,
-      },
-    });
+      });
+    } else {
+      if (!id) {
+        console.log("Edit task without id");
+        return;
+      }
+      await taskStore.patchTask({
+        id: id,
+        data: {
+          title: formTitle.value,
+          description: formDesc.value,
+          status: formStatus.value,
+        },
+      });
+    }
+
     emit("close");
   } catch (e) {
     console.log(e);
@@ -56,7 +65,7 @@ const handleSave = async () => {
 
 <template>
   <v-card>
-    <v-card-title> Edit Task </v-card-title>
+    <v-card-title> {{ mode === "add" ? "Add" : "Edit" }} Task </v-card-title>
 
     <v-card-text>
       <v-form v-model="formValid">

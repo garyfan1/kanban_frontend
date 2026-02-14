@@ -17,12 +17,15 @@ const { title, subtitle, desc, status = "todo" } = defineProps<TaskCardProps>();
     <v-card-text>{{ desc }}</v-card-text>
     <v-card-actions class="justify-space-between">
       <v-btn :class="['justify-start', status === 'todo' && 'hidden']"><</v-btn>
-      <v-dialog>
+      <v-dialog max-width="70%">
         <template #activator="{ props }">
           <v-btn v-bind="props">Edit</v-btn>
         </template>
         <template #default="{ isActive }">
-          <EditTaskForm @close="isActive.value = false" />
+          <EditTaskForm
+            @close="isActive.value = false"
+            :defaults="{ title: title, status: status, desc: desc }"
+          />
         </template>
       </v-dialog>
       <v-btn :class="['justify-end', status === 'done' && 'hidden']">></v-btn>

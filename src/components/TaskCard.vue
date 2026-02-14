@@ -36,9 +36,13 @@ const handleMoveBack = async () => {
     <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
     <v-card-text>{{ desc }}</v-card-text>
     <v-card-actions class="justify-space-between">
-      <v-btn :class="['justify-start', status === 'todo' && 'hidden']" @click="handleMoveBack"
-        ><</v-btn
-      >
+      <v-btn
+        icon="mdi-chevron-left"
+        :class="status === 'todo' && 'hidden'"
+        @click="handleMoveBack"
+        rounded="sm"
+        density="comfortable"
+      />
       <v-dialog max-width="70%">
         <template #activator="{ props }">
           <v-btn v-bind="props">Edit</v-btn>
@@ -51,9 +55,13 @@ const handleMoveBack = async () => {
           />
         </template>
       </v-dialog>
-      <v-btn :class="['justify-end', status === 'done' && 'hidden']" @click="handleMoveNext"
-        >></v-btn
-      >
+      <v-btn
+        icon="mdi-chevron-right"
+        :class="status === 'done' && 'hidden'"
+        @click="handleMoveNext"
+        rounded="sm"
+        density="comfortable"
+      />
     </v-card-actions>
   </v-card>
 </template>

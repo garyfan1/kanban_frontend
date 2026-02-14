@@ -1,35 +1,37 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router"
-import { useAuthStore } from "./stores/authStore"
-import { onMounted, ref } from "vue"
+import { RouterView } from "vue-router";
+import { useAuthStore } from "./stores/authStore";
+import { onMounted, ref } from "vue";
 
-const authStore = useAuthStore()
-const appReady = ref<boolean>(false)
+const authStore = useAuthStore();
+const appReady = ref<boolean>(false);
 
 const handleLogOut = () => {
-  authStore.logout()
-}
+  authStore.logout();
+};
 onMounted(async () => {
   if (authStore.refreshToken) {
     try {
-      await authStore.refreshLogIn()
+      await authStore.refreshLogIn();
     } catch (e) {
-      authStore.logout()
+      authStore.logout();
     }
   }
-  appReady.value = true
-})
+  appReady.value = true;
+});
 </script>
 
 <template>
   <v-app v-if="appReady">
-    <v-app-bar>
-      <v-container class="d-flex ga-4">
-        <RouterLink to="/auth">Auth</RouterLink>
-        <RouterLink to="/kanban">Kanban</RouterLink>
-        <v-spacer />
-        <v-btn v-if="useAuthStore().isLoggedIn" @click="handleLogOut">Log out</v-btn>
-      </v-container>
+    <v-app-bar class="px-6">
+      <div class="d-flex ga-4">
+        <v-btn density="comfortable" text="Auth" to="/auth" variant="plain" />
+        <v-btn density="comfortable" text="Kanban" to="/kanban" variant="plain" />
+      </div>
+      <v-spacer></v-spacer>
+      <v-btn class="ml-auto" v-if="useAuthStore().isLoggedIn" @click="handleLogOut">
+        Log out
+      </v-btn>
     </v-app-bar>
 
     <v-main>

@@ -25,11 +25,11 @@ onMounted(async () => {
 
 <template>
   <div class="pa-6 d-flex flex-column ga-4">
-    <div class="d-flex justify-space-between align-center">
-      <h1 v-if="!!username">Welcome to {{ username + "'s" }} Kanban!</h1>
+    <div class="d-flex align-center">
+      <h1 v-if="!!username">{{ username + "'s" }} Board</h1>
       <v-dialog>
         <template #activator="{ props }">
-          <v-btn v-bind="props">Create Task</v-btn>
+          <v-btn class="ml-auto" v-bind="props">Create Task</v-btn>
         </template>
         <template #default="{ isActive }">
           <EditTaskForm mode="add" @close="isActive.value = false" />

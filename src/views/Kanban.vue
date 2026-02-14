@@ -32,6 +32,7 @@ onMounted(async () => {
         <TaskCard
           v-for="task in todoTasks"
           :key="task.id"
+          :id="task.id"
           :title="task.title"
           :subtitle="useDateFormat(task.created_at, 'YYYY/MM/DD HH:mm').value"
           :desc="task.description"
@@ -43,6 +44,7 @@ onMounted(async () => {
         <TaskCard
           v-for="task in doingTasks"
           :key="task.id"
+          :id="task.id"
           :title="task.title"
           :subtitle="useDateFormat(task.created_at, 'YYYY/MM/DD HH:mm').value"
           :desc="task.description"
@@ -54,6 +56,7 @@ onMounted(async () => {
         <TaskCard
           v-for="task in doneTasks"
           :key="task.id"
+          :id="task.id"
           :title="task.title"
           :subtitle="useDateFormat(task.created_at, 'YYYY/MM/DD HH:mm').value"
           :desc="task.description"

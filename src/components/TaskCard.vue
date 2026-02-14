@@ -2,12 +2,13 @@
 import EditTaskForm from "@/components/EditTaskForm.vue";
 
 interface TaskCardProps {
+  id: number;
   title: string;
   subtitle: string;
   desc: string;
   status?: "todo" | "doing" | "done";
 }
-const { title, subtitle, desc, status = "todo" } = defineProps<TaskCardProps>();
+const { id, title, subtitle, desc, status = "todo" } = defineProps<TaskCardProps>();
 </script>
 
 <template>
@@ -24,6 +25,7 @@ const { title, subtitle, desc, status = "todo" } = defineProps<TaskCardProps>();
         <template #default="{ isActive }">
           <EditTaskForm
             @close="isActive.value = false"
+            :id="id"
             :defaults="{ title: title, status: status, desc: desc }"
           />
         </template>

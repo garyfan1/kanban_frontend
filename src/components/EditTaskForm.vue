@@ -61,11 +61,26 @@ const handleSave = async () => {
     console.log(e);
   }
 };
+
+const handleDelete = async () => {
+  try {
+    if (!id) {
+      console.log("trying to delete task but no id.");
+      return;
+    }
+    await taskStore.deleteTask(id);
+    await taskStore.getTaskList();
+  } catch (e) {
+    console.log(e);
+  }
+};
 </script>
 
 <template>
   <v-card>
-    <v-card-title> {{ mode === "add" ? "Add" : "Edit" }} Task </v-card-title>
+    <v-card-title>
+      <h2>{{ mode === "add" ? "Add" : "Edit" }} Task</h2>
+    </v-card-title>
 
     <v-card-text>
       <v-form v-model="formValid">
@@ -76,6 +91,15 @@ const handleSave = async () => {
     </v-card-text>
 
     <v-card-actions>
+      <v-btn
+        text="delete"
+        variant="outlined"
+        prepend-icon="mdi-trash-can-outline"
+        color="red"
+        @click="handleDelete"
+        v-if="mode === 'edit'"
+      />
+      <v-spacer />
       <v-btn @click="emit('close')">Cancel</v-btn>
       <v-btn :disabled="!formValid" @click="handleSave">Save</v-btn>
     </v-card-actions>

@@ -44,7 +44,6 @@ api.interceptors.response.use(
           return api(error.config);
         } catch (e) {
           authStore.logout();
-          router.push("/auth");
         } finally {
           refreshPromise = null;
         }

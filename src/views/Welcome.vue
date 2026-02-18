@@ -15,7 +15,7 @@ const handleGuestLogIn = async () => {
 </script>
 
 <template>
-  <v-container class="d-flex flex-column align-center justify-center pt-12 ga-6">
+  <v-container class="d-flex flex-column fill-height align-center justify-center ga-6">
     <p class="text-h1">Welcome to <span class="text-primary">Kanban</span></p>
     <p class="text-h4">Organize your tasks!</p>
     <div v-if="!authStore.isLoggedIn" class="d-flex flex-column ga-3">
@@ -41,7 +41,7 @@ const handleGuestLogIn = async () => {
       />
     </div>
     <div v-else class="d-flex flex-column ga-3">
-      <v-btn size="large" variant="flat" color="primary" text="Go to Board" to="/kanban" />
+      <v-btn size="large" variant="flat" color="primary" text="Go to your Board" to="/kanban" />
       <v-btn
         size="large"
         variant="outlined"

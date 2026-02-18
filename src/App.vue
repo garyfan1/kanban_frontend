@@ -24,7 +24,8 @@ onMounted(async () => {
 <template>
   <v-app v-if="appReady">
     <v-app-bar class="px-6">
-      <div class="d-flex ga-4">
+      <div class="d-flex ga-4 align-center">
+        <v-btn icon="mdi-calendar-blank" to="/" :active="false" />
         <v-btn density="comfortable" text="Home" to="/" variant="plain" />
         <v-btn
           v-if="!authStore.isLoggedIn"
@@ -42,9 +43,13 @@ onMounted(async () => {
         />
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="ml-auto" v-if="useAuthStore().isLoggedIn" @click="handleLogOut">
-        Log out
-      </v-btn>
+      <v-btn
+        class="ml-auto"
+        text="Log Out"
+        append-icon="mdi-logout"
+        v-if="useAuthStore().isLoggedIn"
+        @click="handleLogOut"
+      />
     </v-app-bar>
 
     <v-main>

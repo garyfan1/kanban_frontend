@@ -45,7 +45,7 @@ const handleMoveBack = async () => {
       />
       <v-dialog max-width="70%">
         <template #activator="{ props }">
-          <v-btn v-bind="props">Edit</v-btn>
+          <v-btn prepend-icon="mdi-calendar-edit" v-bind="props">Edit</v-btn>
         </template>
         <template #default="{ isActive }">
           <EditTaskForm

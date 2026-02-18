@@ -22,6 +22,12 @@ const formTitle = ref(defaults?.title || "");
 const formDesc = ref(defaults?.desc || "");
 const formStatus = ref(defaults?.status || "todo");
 
+const statusOptions = [
+  { title: "To Do", value: "todo", icon: "mdi-gavel" },
+  { title: "In Progress", value: "doing", icon: "mdi-progress-clock" },
+  { title: "Done", value: "done", icon: "mdi-check" },
+];
+
 const notEmptyRule = (s: string) => {
   if (s.trim().length <= 0) {
     return "Title can not be empty.";
@@ -79,29 +85,42 @@ const handleDelete = async () => {
 <template>
   <v-card>
     <v-card-title>
-      <h2>{{ mode === "add" ? "Add" : "Edit" }} Task</h2>
+      <div class="d-flex align-center ga-2 pa-2">
+        <v-icon class="pa-4" :icon="mode === 'add' ? 'mdi-calendar-plus' : 'mdi-calendar-edit'" />
+        <p class="text-h4">{{ mode === "add" ? "Add" : "Edit" }} Task</p>
+      </div>
     </v-card-title>
 
     <v-card-text>
-      <v-form v-model="formValid">
+      <v-form v-model="formValid" class="d-flex flex-column ga-4">
         <v-text-field label="Title" :rules="[notEmptyRule]" v-model="formTitle" />
-        <v-select label="Status" :items="['todo', 'doing', 'done']" v-model="formStatus"></v-select>
+        <v-select label="Status" :items="statusOptions" v-model="formStatus">
+          <template #item="{ props, item }">
+            <v-list-item v-bind="props" :prepend-icon="item.raw.icon"> </v-list-item>
+          </template>
+          <template #selection="{ item }">
+            <div class="d-flex align-center ga-2">
+              <v-icon :icon="item.raw.icon" />
+              {{ item.title }}
+            </div>
+          </template>
+        </v-select>
         <v-textarea label="Description" variant="outlined" v-model="formDesc"></v-textarea>
       </v-form>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions class="px-4 pb-4">
       <v-btn
         text="delete"
         variant="outlined"
-        prepend-icon="mdi-trash-can-outline"
+        prepend-icon="mdi-trash-can"
         color="red"
         @click="handleDelete"
         v-if="mode === 'edit'"
       />
       <v-spacer />
-      <v-btn @click="emit('close')">Cancel</v-btn>
-      <v-btn :disabled="!formValid" @click="handleSave">Save</v-btn>
+      <v-btn prepend-icon="mdi-close" @click="emit('close')">Cancel</v-btn>
+      <v-btn prepend-icon="mdi-content-save" :disabled="!formValid" @click="handleSave">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>

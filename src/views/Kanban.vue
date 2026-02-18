@@ -28,7 +28,7 @@ onMounted(async () => {
       <h1 v-if="!!username">{{ username + "'s" }} Board</h1>
       <v-dialog>
         <template #activator="{ props }">
-          <v-btn class="ml-auto" v-bind="props">Create Task</v-btn>
+          <v-btn prepend-icon="mdi-calendar-plus" class="ml-auto" v-bind="props">Create Task</v-btn>
         </template>
         <template #default="{ isActive }">
           <EditTaskForm mode="add" @close="isActive.value = false" />
@@ -36,10 +36,20 @@ onMounted(async () => {
       </v-dialog>
     </div>
 
-    <v-container fluid class="border">
+    <v-empty-state
+      v-if="taskStore.tasks.length <= 0"
+      headline="No task yet"
+      title="Get started by adding some tasks!"
+      icon="mdi-calendar-blank-outline"
+    ></v-empty-state>
+
+    <v-container v-else fluid class="border">
       <v-row>
         <v-col cols="4" class="d-flex flex-column ga-3">
-          <h2>To Do</h2>
+          <div class="d-flex align-center ga-2">
+            <v-icon icon="mdi-gavel" />
+            <p class="text-h5">To Do</p>
+          </div>
           <TaskCard
             v-for="task in todoTasks"
             :key="task.id"
@@ -51,7 +61,10 @@ onMounted(async () => {
           />
         </v-col>
         <v-col cols="4" class="d-flex flex-column ga-3">
-          <h2>In Progress</h2>
+          <div class="d-flex align-center ga-2">
+            <v-icon icon="mdi-progress-clock" />
+            <p class="text-h5">In Progress</p>
+          </div>
           <TaskCard
             v-for="task in doingTasks"
             :key="task.id"
@@ -63,7 +76,10 @@ onMounted(async () => {
           />
         </v-col>
         <v-col cols="4" class="d-flex flex-column ga-3">
-          <h2>Done</h2>
+          <div class="d-flex align-center ga-2">
+            <v-icon icon="mdi-check" />
+            <p class="text-h5">Done</p>
+          </div>
           <TaskCard
             v-for="task in doneTasks"
             :key="task.id"

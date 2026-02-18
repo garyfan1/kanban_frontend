@@ -25,8 +25,21 @@ onMounted(async () => {
   <v-app v-if="appReady">
     <v-app-bar class="px-6">
       <div class="d-flex ga-4">
-        <v-btn density="comfortable" text="Auth" to="/auth" variant="plain" />
-        <v-btn density="comfortable" text="Kanban" to="/kanban" variant="plain" />
+        <v-btn density="comfortable" text="Home" to="/" variant="plain" />
+        <v-btn
+          v-if="!authStore.isLoggedIn"
+          density="comfortable"
+          text="Auth"
+          to="/auth"
+          variant="plain"
+        />
+        <v-btn
+          v-if="authStore.isLoggedIn"
+          density="comfortable"
+          text="Kanban"
+          to="/kanban"
+          variant="plain"
+        />
       </div>
       <v-spacer></v-spacer>
       <v-btn class="ml-auto" v-if="useAuthStore().isLoggedIn" @click="handleLogOut">

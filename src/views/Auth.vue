@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/authStore";
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const username = ref<string>("");
 const password = ref<string>("");
 const showPwd = ref<boolean>(false);
 const isFormValid = ref<boolean>(false);
 const snackbar = ref<boolean>(false);
-const mode = ref<"signUp" | "signIn">("signIn");
 
 const authState = useAuthStore();
+const route = useRoute();
+const router = useRouter();
+const mode = ref<"signUp" | "signIn">(route.query.mode === "signUp" ? "signUp" : "signIn");
 
 const toggleShowPwd = () => (showPwd.value = !showPwd.value);
 const hasCapital = /[A-Z]/;
@@ -41,10 +44,12 @@ const handleSubmit = async () => {
     if (mode.value === "signIn") {
       await authState.logIn({ username: username.value, password: password.value });
       snackbar.value = true;
+      router.push("/kanban");
     } else {
       await authState.signUp({ username: username.value, password: password.value });
       await authState.logIn({ username: username.value, password: password.value });
       snackbar.value = true;
+      router.push("/kanban");
     }
   } catch (e) {
     console.log(e);
@@ -59,7 +64,6 @@ const handleSubmit = async () => {
       <v-tab value="signIn">Sign In</v-tab>
     </v-tabs>
     <h1 class="mb-4">{{ mode === "signIn" ? "Sign In" : "Create an Account" }}</h1>
-    <h2 v-if="authState.isLoggedIn">You are logged in!</h2>
     <v-form class="d-flex flex-column ga-3" v-model="isFormValid" @submit.prevent="handleSubmit">
       <v-text-field label="Username" v-model="username" :rules="[validateUsername]" />
       <v-text-field

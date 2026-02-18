@@ -1,23 +1,25 @@
-import { authService } from "@/services/authServices"
-import { useAuthStore } from "@/stores/authStore"
-import Auth from "@/views/Auth.vue"
-import Kanban from "@/views/Kanban.vue"
-import { createRouter, createWebHistory } from "vue-router"
+import { authService } from "@/services/authServices";
+import { useAuthStore } from "@/stores/authStore";
+import Auth from "@/views/Auth.vue";
+import Kanban from "@/views/Kanban.vue";
+import Welcome from "@/views/Welcome.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: "/", component: Welcome },
     { path: "/auth", component: Auth },
     {
       path: "/kanban",
       component: Kanban,
       beforeEnter: (to, from) => {
         if (!useAuthStore().isLoggedIn) {
-          return "/auth"
+          return "/auth";
         }
       },
     },
   ],
-})
+});
 
-export default router
+export default router;

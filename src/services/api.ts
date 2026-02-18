@@ -34,6 +34,10 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response.status == 401) {
+      const url = error.config?.url || "";
+      if (url.includes("token/")) {
+        return Promise.reject(error);
+      }
       if (refreshPromise) {
         await refreshPromise;
         return api(error.config);

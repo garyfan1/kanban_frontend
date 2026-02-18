@@ -16,7 +16,6 @@ onMounted(async () => {
   try {
     username.value = (await authStore.getProfile()).username || "";
     await taskStore.getTaskList();
-    console.log(taskStore.tasks);
   } catch (e) {
     console.log(e);
   }

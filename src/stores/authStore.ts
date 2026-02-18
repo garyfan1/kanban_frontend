@@ -44,5 +44,9 @@ export const useAuthStore = defineStore("Auth", {
         this.logout();
       }
     },
+    async signUp(cred: { username: string; password: string }) {
+      const resp = await authService.signUp(cred);
+      return resp;
+    },
   },
 });

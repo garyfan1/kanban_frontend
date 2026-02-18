@@ -63,7 +63,7 @@ const handleSubmit = async () => {
       <v-tab value="signUp">Sign Up</v-tab>
       <v-tab value="signIn">Sign In</v-tab>
     </v-tabs>
-    <h1 class="mb-4">{{ mode === "signIn" ? "Sign In" : "Create an Account" }}</h1>
+    <p class="my-4 text-h4">{{ mode === "signIn" ? "Sign In" : "Create an Account" }}</p>
     <v-form class="d-flex flex-column ga-3" v-model="isFormValid" @submit.prevent="handleSubmit">
       <v-text-field label="Username" v-model="username" :rules="[validateUsername]" />
       <v-text-field

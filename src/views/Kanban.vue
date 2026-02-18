@@ -23,7 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="pa-6 d-flex flex-column ga-4">
+  <div class="pa-6 d-flex flex-column ga-4 fill-height">
     <div class="d-flex align-center">
       <h1 v-if="!!username">{{ username + "'s" }} Board</h1>
       <v-dialog>
@@ -43,7 +43,7 @@ onMounted(async () => {
       icon="mdi-calendar-blank-outline"
     ></v-empty-state>
 
-    <v-container v-else fluid class="border">
+    <v-container v-else fluid class="border fill-height align-start">
       <v-row>
         <v-col cols="4" class="d-flex flex-column ga-3">
           <div class="d-flex align-center ga-2">

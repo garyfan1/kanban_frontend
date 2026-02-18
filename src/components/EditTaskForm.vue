@@ -23,7 +23,7 @@ const formDesc = ref(defaults?.desc || "");
 const formStatus = ref(defaults?.status || "todo");
 
 const statusOptions = [
-  { title: "To Do", value: "todo", icon: "mdi-gavel" },
+  { title: "To Do", value: "todo", icon: "mdi-pencil" },
   { title: "In Progress", value: "doing", icon: "mdi-progress-clock" },
   { title: "Done", value: "done", icon: "mdi-check" },
 ];

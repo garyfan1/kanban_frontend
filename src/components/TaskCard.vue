@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EditTaskForm from "@/components/EditTaskForm.vue";
 import { useTaskStore } from "@/stores/taskStore";
+import { computed } from "vue";
 
 interface TaskCardProps {
   id: number;
@@ -28,10 +29,21 @@ const handleMoveBack = async () => {
     await taskStore.patchTask({ id: id, data: { status: "doing" } });
   }
 };
+const getBorderColor = computed(() => {
+  if (status === "todo") {
+    return "todo-border";
+  }
+  if (status === "doing") {
+    return "doing-border";
+  }
+  if (status === "done") {
+    return "done-border";
+  }
+});
 </script>
 
 <template>
-  <v-card variant="outlined">
+  <v-card :class="getBorderColor" variant="outlined" rounded="lg">
     <v-card-title> {{ title }} </v-card-title>
     <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
     <v-card-text>{{ desc }}</v-card-text>
@@ -69,5 +81,14 @@ const handleMoveBack = async () => {
 <style scoped>
 .hidden {
   visibility: hidden;
+}
+.todo-border {
+  border-color: #1976d2;
+}
+.doing-border {
+  border-color: #fbc02d;
+}
+.done-border {
+  border-color: #388e3c;
 }
 </style>

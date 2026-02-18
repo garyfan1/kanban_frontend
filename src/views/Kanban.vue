@@ -43,11 +43,13 @@ onMounted(async () => {
       icon="mdi-calendar-blank-outline"
     ></v-empty-state>
 
-    <v-container v-else fluid class="border fill-height align-start">
+    <v-container v-else fluid class="fill-height align-start">
       <v-row>
-        <v-col cols="4" class="d-flex flex-column ga-3">
+        <v-col cols="4" class="d-flex flex-column ga-4">
           <div class="d-flex align-center ga-2">
-            <v-icon icon="mdi-gavel" />
+            <div class="rounded-lg pa-1 todo-icon">
+              <v-icon icon="mdi-pencil" class="opacity-100" />
+            </div>
             <p class="text-h5">To Do</p>
           </div>
           <TaskCard
@@ -60,9 +62,11 @@ onMounted(async () => {
             status="todo"
           />
         </v-col>
-        <v-col cols="4" class="d-flex flex-column ga-3">
+        <v-col cols="4" class="d-flex flex-column ga-4">
           <div class="d-flex align-center ga-2">
-            <v-icon icon="mdi-progress-clock" />
+            <div class="rounded-lg doing-icon pa-1">
+              <v-icon icon="mdi-progress-clock" />
+            </div>
             <p class="text-h5">In Progress</p>
           </div>
           <TaskCard
@@ -75,9 +79,11 @@ onMounted(async () => {
             status="doing"
           />
         </v-col>
-        <v-col cols="4" class="d-flex flex-column ga-3">
+        <v-col cols="4" class="d-flex flex-column ga-4">
           <div class="d-flex align-center ga-2">
-            <v-icon icon="mdi-check" />
+            <div class="rounded-lg done-icon pa-1">
+              <v-icon icon="mdi-check" />
+            </div>
             <p class="text-h5">Done</p>
           </div>
           <TaskCard
@@ -94,3 +100,15 @@ onMounted(async () => {
     </v-container>
   </div>
 </template>
+
+<style scoped>
+.todo-icon {
+  background-color: #1565c0cc /* blue-darken-3 80% */;
+}
+.doing-icon {
+  background-color: #f9a825cc /* yellow-darken-3 80% */;
+}
+.done-icon {
+  background-color: #2e7d32cc /* green-darken-3 80% */;
+}
+</style>

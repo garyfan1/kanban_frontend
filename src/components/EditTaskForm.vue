@@ -83,7 +83,7 @@ const handleDelete = async () => {
 </script>
 
 <template>
-  <v-card>
+  <v-card rounded="lg" width="70%" class="align-self-center">
     <v-card-title>
       <div class="d-flex align-center ga-2 pa-2">
         <v-icon class="pa-4" :icon="mode === 'add' ? 'mdi-calendar-plus' : 'mdi-calendar-edit'" />

@@ -25,10 +25,18 @@ onMounted(async () => {
 <template>
   <div class="pa-6 d-flex flex-column ga-4 fill-height">
     <div class="d-flex align-center">
-      <h1 v-if="!!username">{{ username + "'s" }} Board</h1>
+      <p class="text-h4" v-if="!!username">{{ username + "'s" }} Board</p>
       <v-dialog>
         <template #activator="{ props }">
-          <v-btn prepend-icon="mdi-calendar-plus" class="ml-auto" v-bind="props">Create Task</v-btn>
+          <v-btn
+            prepend-icon="mdi-calendar-plus"
+            text="Create Task"
+            variant="tonal"
+            class="ml-auto"
+            v-bind="props"
+            size="large"
+            rounded="lg"
+          />
         </template>
         <template #default="{ isActive }">
           <EditTaskForm mode="add" @close="isActive.value = false" />

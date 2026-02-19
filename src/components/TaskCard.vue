@@ -29,35 +29,50 @@ const handleMoveBack = async () => {
     await taskStore.patchTask({ id: id, data: { status: "doing" } });
   }
 };
+
 const getBorderColor = computed(() => {
-  if (status === "todo") {
-    return "todo-border";
-  }
-  if (status === "doing") {
-    return "doing-border";
-  }
-  if (status === "done") {
-    return "done-border";
-  }
+  if (status === "todo") return "todo-border";
+  if (status === "doing") return "doing-border";
+  if (status === "done") return "done-border";
+});
+const getSubtitleColor = computed(() => {
+  if (status === "todo") return "text-blue-lighten-1";
+  if (status === "doing") return "text-amber-lighten-1";
+  if (status === "done") return "text-green-lighten-1";
+});
+const getStatusColor = computed(() => {
+  if (status === "todo") return "blue-lighten-1";
+  if (status === "doing") return "amber-lighten-1";
+  if (status === "done") return "green-lighten-1";
 });
 </script>
 
 <template>
-  <v-card :class="getBorderColor" variant="outlined" rounded="lg">
-    <v-card-title> {{ title }} </v-card-title>
-    <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
-    <v-card-text>{{ desc }}</v-card-text>
+  <v-card :class="[getBorderColor, 'bg-surface']" variant="outlined" rounded="lg">
+    <v-card-title>
+      {{ title }}
+    </v-card-title>
+    <v-card-subtitle :class="getSubtitleColor">
+      {{ subtitle }}
+    </v-card-subtitle>
+    <v-card-text>
+      {{ desc }}
+    </v-card-text>
+    <v-divider class="mx-4" />
     <v-card-actions class="justify-space-between">
       <v-btn
         icon="mdi-chevron-left"
         :class="status === 'todo' && 'hidden'"
+        :color="getStatusColor"
         @click="handleMoveBack"
         rounded="sm"
         density="comfortable"
       />
-      <v-dialog max-width="70%">
+      <v-dialog>
         <template #activator="{ props }">
-          <v-btn prepend-icon="mdi-calendar-edit" v-bind="props">Edit</v-btn>
+          <v-btn prepend-icon="mdi-calendar-edit" :color="getStatusColor" v-bind="props"
+            >Edit</v-btn
+          >
         </template>
         <template #default="{ isActive }">
           <EditTaskForm
@@ -70,6 +85,7 @@ const getBorderColor = computed(() => {
       <v-btn
         icon="mdi-chevron-right"
         :class="status === 'done' && 'hidden'"
+        :color="getStatusColor"
         @click="handleMoveNext"
         rounded="sm"
         density="comfortable"
@@ -82,13 +98,14 @@ const getBorderColor = computed(() => {
 .hidden {
   visibility: hidden;
 }
+
 .todo-border {
-  border-color: #1976d2;
+  border-color: #42a5f5; /* blue-lighten-1 */
 }
 .doing-border {
-  border-color: #fbc02d;
+  border-color: #ffca28; /* amber-lighten-1 */
 }
 .done-border {
-  border-color: #388e3c;
+  border-color: #66bb6a; /* green-lighten-1 */
 }
 </style>

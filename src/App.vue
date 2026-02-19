@@ -2,8 +2,10 @@
 import { RouterView } from "vue-router";
 import { useAuthStore } from "./stores/authStore";
 import { onMounted, ref } from "vue";
+import { useSnackbarStore } from "./stores/snackbarStore";
 
 const authStore = useAuthStore();
+const snackbarStore = useSnackbarStore();
 const appReady = ref<boolean>(false);
 
 const handleLogOut = () => {
@@ -54,6 +56,9 @@ onMounted(async () => {
 
     <v-main>
       <RouterView />
+      <v-snackbar v-model="snackbarStore.isShown" :color="snackbarStore.color">
+        {{ snackbarStore.message }}
+      </v-snackbar>
     </v-main>
   </v-app>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/authStore";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -7,9 +8,9 @@ const username = ref<string>("");
 const password = ref<string>("");
 const showPwd = ref<boolean>(false);
 const isFormValid = ref<boolean>(false);
-const snackbar = ref<boolean>(false);
 
 const authState = useAuthStore();
+const snackbarStore = useSnackbarStore();
 const route = useRoute();
 const router = useRouter();
 const mode = ref<"signUp" | "signIn">(route.query.mode === "signUp" ? "signUp" : "signIn");
@@ -31,28 +32,38 @@ const validatePwd = (value: string): string | boolean => {
   if (!hasSpecial.test(value)) {
     return "Password should contain at least one special character";
   }
+  if (value.includes(" ")) {
+    return "Space is not allowed";
+  }
   return true;
 };
 const validateUsername = (value: string): string | boolean => {
   if (value.length < 8) {
     return "Username must be more than 8 characters";
   }
+  if (value.includes(" ")) {
+    return "Space is not allowed";
+  }
   return true;
 };
+
 const handleSubmit = async () => {
   try {
     if (mode.value === "signIn") {
       await authState.logIn({ username: username.value, password: password.value });
-      snackbar.value = true;
       router.push("/kanban");
+      snackbarStore.showSnackbar("Logged In!", "success");
     } else {
       await authState.signUp({ username: username.value, password: password.value });
       await authState.logIn({ username: username.value, password: password.value });
-      snackbar.value = true;
       router.push("/kanban");
+      snackbarStore.showSnackbar("Signed up successful!", "success");
     }
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    snackbarStore.showSnackbar(
+      e.response.data.username[0] || e.response.data.password[0] || e.message,
+      "error",
+    );
   }
 };
 </script>
@@ -65,10 +76,10 @@ const handleSubmit = async () => {
     </v-tabs>
     <p class="my-4 text-h4">{{ mode === "signIn" ? "Sign In" : "Create an Account" }}</p>
     <v-form class="d-flex flex-column ga-3" v-model="isFormValid" @submit.prevent="handleSubmit">
-      <v-text-field label="Username" v-model="username" :rules="[validateUsername]" />
+      <v-text-field label="Username" v-model.trim="username" :rules="[validateUsername]" />
       <v-text-field
         label="Password"
-        v-model="password"
+        v-model.trim="password"
         :type="showPwd ? 'text' : 'password'"
         :append-inner-icon="showPwd ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
         @click:append-inner="toggleShowPwd()"
@@ -77,5 +88,4 @@ const handleSubmit = async () => {
       <v-btn text="Submit" type="submit" class="align-self-start" :disabled="!isFormValid" />
     </v-form>
   </v-container>
-  <v-snackbar v-model="snackbar"> Logged In! </v-snackbar>
 </template>
